@@ -1,0 +1,6 @@
+# Ablation arm: fixed depth (no marginal-gain stop, no critical-path estimate).
+# Plan §8.4 — does adaptive depth help vs a constant?
+ablation:
+  depth: fixed
+depth:
+  budget_cap: 4

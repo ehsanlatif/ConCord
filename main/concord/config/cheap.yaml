@@ -1,0 +1,24 @@
+# Cost-optimized profile: haiku for every role.
+# Use this to validate the pipeline cheaply before running the full per-role
+# matrix. Expect lower accuracy than opus/sonnet on the harder tasks.
+
+seed: 42
+
+llm:
+  provider: anthropic
+  model: claude-haiku-4-5
+  temperature: 1.0
+  max_output_tokens: 1024
+
+# All roles inherit `llm:` because nothing is pinned under `models:`.
+models: {}
+
+sampling:
+  K_blackbox: 4
+
+mcts:
+  N: 32
+  c_puct: 3.0
+  C: 2.0
+  beta: 0.5
+  n_min: 3

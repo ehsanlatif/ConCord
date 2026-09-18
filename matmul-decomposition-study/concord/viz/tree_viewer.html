@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Concord — tree viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg:#0f1419; --panel:#161c24; --panel2:#1d2630; --txt:#d8dde6;
+    --muted:#8a93a5; --accent:#7aa2f7; --good:#9ece6a; --bad:#f7768e;
+    --warn:#e0af68; --pending:#7dcfff; --node-border:#3b4252;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--txt);
+    font: 13px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  header {
+    padding: 8px 14px; background: var(--panel); border-bottom: 1px solid #222;
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 14px; font-weight: 600; color: var(--accent); }
+  header .meta { font-size: 12px; color: var(--muted); }
+  header .meta b { color: var(--txt); font-weight: 500; }
+  header .controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  header button, header input[type="file"]::file-selector-button, header select {
+    background: var(--panel2); color: var(--txt); border: 1px solid #2a3140;
+    border-radius: 4px; padding: 4px 10px; cursor: pointer; font: inherit;
+  }
+  header input[type="file"] { color: var(--muted); }
+  #main { display: grid; grid-template-columns: 1fr 380px; height: calc(100vh - 50px); }
+  #treepanel { position: relative; overflow: hidden; }
+  svg { width: 100%; height: 100%; cursor: grab; background: var(--bg); }
+  svg:active { cursor: grabbing; }
+  .link { fill: none; stroke: #2a3340; stroke-width: 1.4; }
+  .node circle { stroke: var(--node-border); stroke-width: 1.5; cursor: pointer; }
+  .node.selected circle { stroke: var(--accent); stroke-width: 3; }
+  .node text { fill: var(--muted); font-size: 10px; pointer-events: none; }
+  .node.terminal circle { stroke: var(--good); }
+  .node.gated_fail circle { stroke: var(--bad); }
+  .node.chosen circle { stroke: var(--accent); stroke-width: 3; filter: drop-shadow(0 0 6px var(--accent)); }
+
+  #details { background: var(--panel); border-left: 1px solid #222;
+              overflow-y: auto; padding: 14px 14px 30px; }
+  #details h2 { font-size: 12px; margin: 18px 0 6px 0; color: var(--accent);
+                 text-transform: uppercase; letter-spacing: 0.06em; }
+  #details h2:first-child { margin-top: 0; }
+  #details .kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; }
+  #details .kv span { color: var(--muted); }
+  #details .kv b { color: var(--txt); font-weight: 500; word-break: break-word; }
+  #details pre { background: var(--panel2); padding: 8px; border-radius: 4px;
+                  white-space: pre-wrap; word-break: break-word;
+                  max-height: 180px; overflow-y: auto;
+                  font: 12px/1.35 ui-monospace, "SF Mono", Menlo, monospace; }
+
+  .pill { display: inline-block; padding: 1px 6px; border-radius: 8px;
+           background: #2a3140; color: var(--muted); font-size: 11px; margin-right: 4px; }
+  .pill.good { color: var(--good); background: rgba(158,206,106,.12); }
+  .pill.bad  { color: var(--bad);  background: rgba(247,118,142,.15); }
+  .pill.warn { color: var(--warn); background: rgba(224,175,104,.15); }
+
+  #drop {
+    position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: var(--muted); font-size: 16px;
+    pointer-events: none;
+  }
+  #rollouts { margin-top: 14px; }
+  #rollouts .roll { padding: 4px 6px; border-radius: 3px; cursor: pointer;
+                     border-left: 3px solid #2a3340; margin-bottom: 2px; }
+  #rollouts .roll:hover { background: var(--panel2); }
+  #rollouts .roll.active { background: #243140; border-left-color: var(--accent); }
+  #rollouts .roll .head { display: flex; gap: 6px; align-items: center; }
+  #rollouts .roll .body { color: var(--muted); font-size: 11px; margin-top: 1px; }
+  .legend { font-size: 11px; color: var(--muted); display: flex; gap: 10px; }
+  .legend span::before { content: ""; display: inline-block; width: 8px; height: 8px;
+                          border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+  .legend .leg-term::before    { background: var(--good); }
+  .legend .leg-gated::before   { background: var(--bad);  }
+  .legend .leg-chosen::before  { background: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Concord tree viewer</h1>
+  <div class="meta" id="meta-line"></div>
+  <div class="legend">
+    <span class="leg-term">terminal</span>
+    <span class="leg-gated">gated_fail</span>
+    <span class="leg-chosen">chosen path</span>
+  </div>
+  <div class="controls">
+    <label>tree.json: <input type="file" id="file-tree" accept=".json,application/json" /></label>
+    <label>rollouts.jsonl: <input type="file" id="file-rollouts" accept=".jsonl" /></label>
+    <label>combine_tree.json: <input type="file" id="file-combine" accept=".json,application/json" /></label>
+    <button id="fit-btn">Fit</button>
+  </div>
+</header>
+
+<div id="main">
+  <div id="treepanel">
+    <svg id="svg"><g id="root"></g></svg>
+    <div id="drop">Drop tree.json on the page (or use the file picker above).</div>
+  </div>
+  <div id="details">
+    <div id="d-content">
+      <h2>How to use</h2>
+      <p style="color:var(--muted)">
+        Open a <code>*_tree.json</code> file to render the search tree.
+        Optionally also load <code>*_rollouts.jsonl</code> to step through
+        rollouts. Click any node to see its state, score, and provenance.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ---------- state ----------
+let TREE = null;
+let ROLLOUTS = [];
+let NODES_BY_ID = {};
+let SELECTED_ID = null;
+let CHOSEN_PATH = new Set();
+let ACTIVE_ROLLOUT = null;
+
+// `svg` and `root` are mutable — when we switch between the MCTS-tree
+// view and the combine-tree view we replace the panel's innerHTML, which
+// detaches the original elements. The restore path re-binds these.
+let svg = document.getElementById("svg");
+let root = document.getElementById("root");
+const details = document.getElementById("d-content");
+const metaLine = document.getElementById("meta-line");
+
+// ---------- file loaders ----------
+function readFileAsText(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsText(file);
+  });
+}
+
+// Restore the MCTS-tree panel structure if the combine-tree view
+// replaced it. Safe to call when the original elements are already there.
+function _restoreTreePanel() {
+  const panel = document.getElementById("treepanel");
+  if (!document.getElementById("svg")) {
+    panel.innerHTML = `
+      <svg id="svg"><g id="root"></g></svg>
+      <div id="drop">Drop tree.json on the page (or use the file picker above).</div>
+    `;
+  }
+  // Re-bind module-level refs in case the panel was just rebuilt OR was
+  // replaced by the combine view. The original `let` declaration captures
+  // the elements at script-start; we refresh them here.
+  svg  = document.getElementById("svg");
+  root = document.getElementById("root");
+}
+
+async function loadTreeFile(file) {
+  _restoreTreePanel();
+  const text = await readFileAsText(file);
+  TREE = JSON.parse(text);
+  NODES_BY_ID = {};
+  for (const n of TREE.nodes) NODES_BY_ID[n.id] = n;
+  CHOSEN_PATH = new Set();
+  if (TREE.summary && TREE.summary.chosen_node_id) {
+    let cur = NODES_BY_ID[TREE.summary.chosen_node_id];
+    while (cur) {
+      CHOSEN_PATH.add(cur.id);
+      cur = NODES_BY_ID[cur.parent_id];
+    }
+  }
+  renderMeta();
+  renderTree();
+  const drop = document.getElementById("drop");
+  if (drop) drop.style.display = "none";
+}
+
+async function loadRolloutsFile(file) {
+  const text = await readFileAsText(file);
+  ROLLOUTS = text.split(/\n+/).filter(l => l.trim()).map(JSON.parse);
+  renderDetails();
+}
+
+document.getElementById("file-tree").addEventListener("change", e => {
+  if (e.target.files[0]) loadTreeFile(e.target.files[0]);
+});
+document.getElementById("file-rollouts").addEventListener("change", e => {
+  if (e.target.files[0]) loadRolloutsFile(e.target.files[0]);
+});
+window.addEventListener("dragover", e => e.preventDefault());
+window.addEventListener("drop", async e => {
+  e.preventDefault();
+  for (const f of e.dataTransfer.files) {
+    if (f.name.endsWith("_tree.json") || f.name.endsWith(".json"))
+      await loadTreeFile(f);
+    else if (f.name.endsWith(".jsonl"))
+      await loadRolloutsFile(f);
+  }
+});
+
+// ---------- meta header ----------
+function renderMeta() {
+  const m = (TREE && TREE.meta) || {};
+  const s = (TREE && TREE.summary) || {};
+  const roleStr = m.role_models
+    ? Object.entries(m.role_models).map(([k,v]) => `${k}=${v.split("/")[1]}`).join(" • ")
+    : "";
+  const pieces = [];
+  if (m.run_id)      pieces.push(`<b>${m.run_id}</b>`);
+  if (m.domain)      pieces.push(`domain <b>${m.domain}</b>`);
+  if (s.coherent !== undefined)
+    pieces.push(`<b class="pill ${s.coherent ? 'good' : 'bad'}">${s.coherent ? 'coherent' : 'soft-relaxed'}</b>`);
+  if (s.sigma !== undefined) pieces.push(`σ=<b>${s.sigma}</b>`);
+  if (s.rollouts)    pieces.push(`<b>${s.rollouts}</b> rollouts`);
+  if (s.answer)      pieces.push(`→ <b>${escapeHTML(String(s.answer).slice(0,60))}</b>`);
+  if (roleStr)       pieces.push(`<span>${roleStr}</span>`);
+  metaLine.innerHTML = pieces.join(" &nbsp;·&nbsp; ");
+}
+
+// ---------- tree layout (simple Reingold–Tilford-ish) ----------
+function layoutTree() {
+  const rootNode = TREE.nodes.find(n => n.parent_id == null);
+  if (!rootNode) return null;
+  const childrenOf = {};
+  for (const n of TREE.nodes) {
+    if (n.parent_id) (childrenOf[n.parent_id] = childrenOf[n.parent_id] || []).push(n);
+  }
+  // depth-first walk to compute x position
+  let nextX = 0;
+  const X = {};
+  function walk(id, depth) {
+    const kids = childrenOf[id] || [];
+    if (!kids.length) {
+      X[id] = nextX++;
+      return;
+    }
+    for (const k of kids) walk(k.id, depth + 1);
+    X[id] = (X[kids[0].id] + X[kids[kids.length-1].id]) / 2;
+  }
+  walk(rootNode.id, 0);
+  return { X, root: rootNode };
+}
+
+function renderTree() {
+  while (root.firstChild) root.removeChild(root.firstChild);
+  if (!TREE) return;
+  const lay = layoutTree();
+  if (!lay) return;
+
+  const xSpacing = 70;
+  const ySpacing = 90;
+  const pad = 40;
+
+  // links
+  for (const n of TREE.nodes) {
+    if (n.parent_id == null) continue;
+    const p = NODES_BY_ID[n.parent_id];
+    if (!p) continue;
+    const x1 = lay.X[p.id] * xSpacing + pad;
+    const y1 = p.depth * ySpacing + pad;
+    const x2 = lay.X[n.id] * xSpacing + pad;
+    const y2 = n.depth * ySpacing + pad;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", `M${x1},${y1} C${x1},${(y1+y2)/2} ${x2},${(y1+y2)/2} ${x2},${y2}`);
+    path.setAttribute("class", "link");
+    if (CHOSEN_PATH.has(n.id) && CHOSEN_PATH.has(p.id))
+      path.setAttribute("stroke", "#7aa2f7");
+    root.appendChild(path);
+  }
+  // nodes
+  for (const n of TREE.nodes) {
+    const x = lay.X[n.id] * xSpacing + pad;
+    const y = n.depth * ySpacing + pad;
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    let cls = "node";
+    if (n.terminal) cls += " terminal";
+    if (n.gated_fail) cls += " gated_fail";
+    if (CHOSEN_PATH.has(n.id)) cls += " chosen";
+    if (n.id === SELECTED_ID) cls += " selected";
+    g.setAttribute("class", cls);
+    g.setAttribute("transform", `translate(${x},${y})`);
+    g.addEventListener("click", () => { SELECTED_ID = n.id; renderTree(); renderDetails(); });
+
+    const r = 8 + Math.min(10, Math.log2(1 + n.N) * 2.5);
+    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("r", r);
+    const q = Math.max(0, Math.min(1, n.Q));
+    c.setAttribute("fill", `hsl(${Math.round(120 * q)}, 60%, 32%)`);
+    g.appendChild(c);
+
+    const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    t.setAttribute("y", r + 12);
+    t.setAttribute("text-anchor", "middle");
+    t.textContent = `${n.id} N=${n.N} Q=${n.Q.toFixed(2)}`;
+    g.appendChild(t);
+    root.appendChild(g);
+  }
+  fitView();
+}
+
+// ---------- pan + zoom ----------
+let view = { x: 0, y: 0, scale: 1 };
+function applyView() {
+  root.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.scale})`);
+}
+function fitView() {
+  const bbox = root.getBBox();
+  if (!bbox.width || !bbox.height) return;
+  const w = svg.clientWidth;
+  const h = svg.clientHeight;
+  const margin = 30;
+  const sx = (w - 2*margin) / bbox.width;
+  const sy = (h - 2*margin) / bbox.height;
+  view.scale = Math.min(1.4, Math.min(sx, sy));
+  view.x = margin - bbox.x * view.scale;
+  view.y = margin - bbox.y * view.scale;
+  applyView();
+}
+document.getElementById("fit-btn").addEventListener("click", fitView);
+
+(function setupPanZoom() {
+  let dragging = false, lastX = 0, lastY = 0;
+  svg.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+  window.addEventListener("mouseup", () => { dragging = false; });
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    view.x += e.clientX - lastX;
+    view.y += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyView();
+  });
+  svg.addEventListener("wheel", e => {
+    e.preventDefault();
+    const factor = Math.exp(-e.deltaY * 0.001);
+    const r = svg.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    view.x = mx - (mx - view.x) * factor;
+    view.y = my - (my - view.y) * factor;
+    view.scale *= factor;
+    applyView();
+  }, { passive: false });
+})();
+
+// ---------- details pane ----------
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function renderDetails() {
+  if (!TREE) return;
+  const out = [];
+  const n = SELECTED_ID ? NODES_BY_ID[SELECTED_ID] : null;
+  if (n) {
+    const pills = [];
+    if (n.terminal) pills.push('<span class="pill good">terminal</span>');
+    if (n.gated_fail) pills.push('<span class="pill bad">gated_fail</span>');
+    if (CHOSEN_PATH.has(n.id)) pills.push('<span class="pill warn">on chosen path</span>');
+    out.push(`<h2>Node ${escapeHTML(n.id)} ${pills.join(" ")}</h2>`);
+    out.push('<div class="kv">');
+    out.push(`<span>parent</span><b>${escapeHTML(n.parent_id ?? "—")}</b>`);
+    out.push(`<span>depth</span><b>${n.depth}</b>`);
+    out.push(`<span>N</span><b>${n.N}</b>`);
+    out.push(`<span>Q</span><b>${n.Q}</b>`);
+    out.push(`<span>prior</span><b>${n.prior}</b>`);
+    out.push(`<span>U_s</span><b>${n.U_s}</b>`);
+    out.push(`<span>σ</span><b>${n.sigma}</b>`);
+    out.push(`<span>subproblem</span><b>${escapeHTML(n.subproblem_text || "—")}</b>`);
+    out.push(`<span>children</span><b>${n.n_children} (untried: ${n.n_untried})</b>`);
+    out.push('</div>');
+    if (n.answer_text) {
+      out.push('<h2>chosen answer for this branch</h2>');
+      out.push(`<pre>${escapeHTML(n.answer_text)}</pre>`);
+    }
+    if (n.state && n.state.resolved && n.state.resolved.length) {
+      out.push('<h2>state.resolved</h2>');
+      out.push('<pre>' + n.state.resolved.map(([k,v]) => `${k} = ${escapeHTML(String(v).slice(0,200))}`).join("\n") + '</pre>');
+    }
+  }
+  // Rollouts list
+  if (ROLLOUTS.length) {
+    out.push('<h2>Rollouts</h2><div id="rollouts"></div>');
+  } else {
+    out.push('<p style="color:var(--muted)"><i>(load *_rollouts.jsonl to step through rollouts)</i></p>');
+  }
+  details.innerHTML = out.join("\n");
+
+  const rollList = document.getElementById("rollouts");
+  if (rollList) {
+    for (const r of ROLLOUTS) {
+      const div = document.createElement("div");
+      div.className = "roll" + (ACTIVE_ROLLOUT === r.i ? " active" : "");
+      const v = (r.value_backed_up ?? 0).toFixed(2);
+      const sig = (r.leaf && r.leaf.sigma) ? r.leaf.sigma.toFixed(2) : "0";
+      const status = r.leaf && r.leaf.gated_fail ? "gated" :
+                     r.leaf && r.leaf.terminal ? "term" : "—";
+      div.innerHTML =
+        `<div class="head">#${r.i} <span class="pill">${status}</span>` +
+        ` <b>val=${v}</b> <span class="pill">σ=${sig}</span></div>` +
+        `<div class="body">${(r.selected_path||[]).join("→")}` +
+        (r.new_child_id ? ` ➕ ${r.new_child_id}` : "") +
+        `</div>`;
+      div.addEventListener("click", () => {
+        ACTIVE_ROLLOUT = r.i;
+        SELECTED_ID = r.leaf ? r.leaf.id : SELECTED_ID;
+        showRollout(r);
+        renderTree();
+      });
+      rollList.appendChild(div);
+    }
+  }
+}
+
+function showRollout(r) {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `
+    <h2>Rollout #${r.i}</h2>
+    <div class="kv">
+      <span>selected path</span><b>${(r.selected_path||[]).join(" → ")}</b>
+      <span>expanded</span><b>${r.expanded_parent_id || "—"}${r.new_child_id ? " → " + r.new_child_id : ""}</b>
+      <span>leaf</span><b>${r.leaf && r.leaf.id} (depth ${r.leaf && r.leaf.depth})</b>
+      <span>value</span><b>${(r.value_backed_up ?? 0).toFixed(4)}</b>
+    </div>
+    ${r.expansion ? `
+      <h2>Expansion</h2>
+      <div class="kv">
+        <span>subproblem</span><b>${escapeHTML(r.expansion.subproblem_id || "?")}</b>
+        <span>oracle</span><b>${escapeHTML(r.expansion.oracle_mode || "?")}</b>
+        <span>entail queries</span><b>${r.expansion.queried_pairs}</b>
+        <span>K samples</span><b>${(r.expansion.samples||[]).length}</b>
+        <span>classes</span><b>${(r.expansion.classes||[]).length}</b>
+      </div>
+      <h2>Classes</h2>
+      <pre>${escapeHTML(JSON.stringify(r.expansion.classes || [], null, 2)).slice(0, 4000)}</pre>
+      <h2>Samples</h2>
+      <pre>${(r.expansion.samples || []).map(s =>
+        `[${s.idx}] class=${s.class_idx} w=${s.weight?.toFixed(3)} → ${escapeHTML(s.extracted_answer || s.text.slice(0,100))}`
+      ).join("\n")}</pre>
+      <h2>Prompt</h2>
+      <pre>${escapeHTML(r.expansion.prompt_excerpt || "")}</pre>` : ""}
+    ${r.gate ? `
+      <h2>Gate</h2>
+      <div class="kv">
+        <span>sigma</span><b>${r.gate.sigma}</b>
+        <span>violated</span><b>${(r.gate.violated || []).join(", ") || "(none)"}</b>
+        <span>checked</span><b>${(r.gate.all_checked || []).join(", ") || "(none)"}</b>
+      </div>` : ""}
+    <h2>Backup path (post-rollout)</h2>
+    <pre>${(r.backup_path || []).map(b => `${b.id}: N=${b.N} Q=${b.Q}`).join("\n")}</pre>
+  `;
+  // Replace the details body content
+  details.innerHTML = "";
+  details.appendChild(wrap);
+}
+
+window.addEventListener("resize", () => fitView());
+
+// ===========================================================================
+// combine_tree.json renderer (hierarchical SVG tree)
+// ===========================================================================
+//
+// Renders the per-question combine tree as a real hierarchical tree:
+//
+//   ROOT (the original problem + synthesis output)
+//     ├── Block node_0   ← layer 0 (independents) on the LEFT
+//     │   ├── atom_0     ← recursive split tree
+//     │   │   └── …
+//     │   └── atom_1
+//     ├── Block node_6
+//     │   └── …
+//     └── Block node_1   ← layer 1+ (dependents) on the RIGHT
+//         └── …
+//
+// Cross-block dependency edges (`answer from problem node_K`) are drawn
+// as faint dotted lines, layered behind the tree links.
+
+let COMBINE = null;
+let COMBINE_SELECTED = null;
+// Flat list of `{id, parent_id, depth, ...}` nodes used by both layout
+// and the click handler. Built fresh on every combine_tree load.
+let COMBINE_NODES = [];
+let COMBINE_NODES_BY_ID = {};
+let COMBINE_CHILDREN = {};
+
+function loadCombineFile(file) {
+  return readFileAsText(file).then(text => {
+    COMBINE = JSON.parse(text);
+    buildCombineHierarchy();
+    COMBINE_SELECTED = "root";
+    renderCombine();
+    document.getElementById("drop").style.display = "none";
+  });
+}
+
+document.getElementById("file-combine").addEventListener("change", e => {
+  if (e.target.files[0]) loadCombineFile(e.target.files[0]);
+});
+
+function _esc(s) { return (s == null ? "" : String(s))
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ---------------------------------------------------------------------------
+// Hierarchy build: combine_tree.json → flat node list keyed by id
+// ---------------------------------------------------------------------------
+
+function buildCombineHierarchy() {
+  COMBINE_NODES = [];
+  COMBINE_NODES_BY_ID = {};
+  COMBINE_CHILDREN = {};
+  if (!COMBINE) return;
+
+  function pushNode(n) {
+    COMBINE_NODES.push(n);
+    COMBINE_NODES_BY_ID[n.id] = n;
+    if (n.parent_id != null) {
+      (COMBINE_CHILDREN[n.parent_id] = COMBINE_CHILDREN[n.parent_id] || []).push(n);
+    }
+  }
+
+  // ROOT — the original problem + synthesis result.
+  pushNode({
+    id: "root", parent_id: null, depth: 0,
+    type: "root",
+    label: "Problem",
+    sub: COMBINE.synthesis ? (COMBINE.synthesis.final_line || "") : "(no synthesis)",
+    score: COMBINE.synthesis ? COMBINE.synthesis.verifier_score : null,
+    payload: { synthesis: COMBINE.synthesis, problem: COMBINE.problem_text },
+  });
+
+  // Block nodes — in topological-layer order so independents appear first.
+  const order = (COMBINE.block_graph && COMBINE.block_graph.topological_order) || [];
+  const provByBlock = {};
+  for (const b of (COMBINE.blocks || [])) {
+    provByBlock[b.block_node_id] = b;
+  }
+  const refsByBlock = {};
+  for (const n of (COMBINE.block_graph && COMBINE.block_graph.nodes) || []) {
+    refsByBlock[n.id] = n.refs || [];
+  }
+
+  for (const node_id of order) {
+    const prov = provByBlock[node_id] || {};
+    pushNode({
+      id: "block:" + node_id, parent_id: "root", depth: 1,
+      type: "block",
+      label: node_id,
+      sub: (prov.final_block_answer || "").slice(0, 40),
+      score: prov.final_score != null ? Number(prov.final_score) : null,
+      refs: refsByBlock[node_id] || [],
+      payload: { prov: prov, block_node_id: node_id },
+    });
+
+    // Atomic units within this block (recursive split tree).
+    const split = prov.split_tree;
+    const atoms = split && split.atoms ? split.atoms : [];
+
+    // Build a quick lookup: atom_id → answer string.
+    const atomAns = {};
+    for (const aa of (prov.atomic_answers || [])) {
+      atomAns[aa.atom_id] = aa.answer;
+    }
+
+    function walkAtoms(atomArr, parentId, depth) {
+      for (const a of atomArr) {
+        const id = "atom:" + a.atom_id;
+        const ans = atomAns[a.atom_id];
+        pushNode({
+          id, parent_id: parentId, depth,
+          type: a.children && a.children.length ? "split" : "atom",
+          label: a.atom_id.split("/").pop(),
+          sub: a.is_atomic
+            ? (ans != null ? "→ " + String(ans).slice(0, 36) : "(unsolved)")
+            : `split (${a.children ? a.children.length : 0} sub)`,
+          atomic: !!a.is_atomic,
+          split_reason: a.split_reason,
+          score: null,
+          payload: { atom: a, answer: ans },
+        });
+        if (a.children && a.children.length) {
+          walkAtoms(a.children, id, depth + 1);
+        }
+      }
+    }
+    walkAtoms(atoms, "block:" + node_id, 2);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reingold–Tilford-ish layout (mirrors the MCTS-tree layoutTree())
+// ---------------------------------------------------------------------------
+
+function layoutCombine() {
+  const X = {};
+  let nextX = 0;
+  function walk(id) {
+    const kids = COMBINE_CHILDREN[id] || [];
+    if (!kids.length) { X[id] = nextX++; return; }
+    for (const k of kids) walk(k.id);
+    X[id] = (X[kids[0].id] + X[kids[kids.length - 1].id]) / 2;
+  }
+  walk("root");
+  return X;
+}
+
+// ---------------------------------------------------------------------------
+// Render the SVG tree + the top synthesis banner
+// ---------------------------------------------------------------------------
+
+function renderCombine() {
+  if (!COMBINE) return;
+  const panel = document.getElementById("treepanel");
+  panel.innerHTML = `
+    <div id="combine-banner" style="position:absolute;top:0;left:0;right:0;
+         padding:8px 12px;background:var(--panel);border-bottom:1px solid #222;
+         font-size:11px;z-index:10;"></div>
+    <svg id="combine-svg" style="width:100%;height:100%;cursor:grab;background:var(--bg);">
+      <g id="combine-root"></g>
+    </svg>
+  `;
+  renderCombineBanner();
+  renderCombineSvg();
+  enableCombinePanZoom();
+  renderCombineDetails();
+}
+
+function renderCombineBanner() {
+  const root = document.getElementById("combine-banner");
+  if (!root || !COMBINE) return;
+  const s = COMBINE.synthesis;
+  const n_blocks = (COMBINE.block_graph && COMBINE.block_graph.nodes.length) || 0;
+  const n_edges  = (COMBINE.block_graph && COMBINE.block_graph.edges.length) || 0;
+  let synthLine = "<i style='color:var(--muted)'>no synthesizer output</i>";
+  if (s) {
+    const scoreColor = s.verifier_score >= 0.75 ? "var(--good)" :
+                       s.verifier_score >= 0.5  ? "var(--warn)" : "var(--bad)";
+    synthLine = `<b style='color:var(--accent)'>${_esc(s.final_line)}</b>
+      <span style='color:var(--muted);margin-left:8px;'>
+        len=${s.actual_length}/${s.heuristic_length},
+        verifier=<b style='color:${scoreColor}'>${(s.verifier_score||0).toFixed(2)}</b>,
+        consistent=${s.verifier_is_consistent}${s.n_retries ? ", retries="+s.n_retries : ""}
+      </span>`;
+  }
+  root.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <span style="color:var(--muted)">combine_tree —
+        solver <b style="color:var(--txt)">${_esc(COMBINE.solver)}</b>,
+        ${n_blocks} blocks, ${n_edges} edges
+      </span>
+      <div style="flex:1;text-align:right;font-family:ui-monospace,monospace;">
+        ${synthLine}
+      </div>
+    </div>
+  `;
+}
+
+function renderCombineSvg() {
+  const X = layoutCombine();
+  const xSpacing = 90;
+  const ySpacing = 90;
+  const pad = 60;
+  const topPad = 60;  // leave room for the synthesis banner
+
+  const svg = document.getElementById("combine-svg");
+  const rootG = document.getElementById("combine-root");
+  while (rootG.firstChild) rootG.removeChild(rootG.firstChild);
+
+  // Cross-block dependency edges (dotted, drawn behind tree links).
+  for (const e of (COMBINE.block_graph && COMBINE.block_graph.edges) || []) {
+    const a = COMBINE_NODES_BY_ID["block:" + e.from];
+    const b = COMBINE_NODES_BY_ID["block:" + e.to];
+    if (!a || !b) continue;
+    const x1 = X[a.id] * xSpacing + pad;
+    const y1 = a.depth * ySpacing + topPad;
+    const x2 = X[b.id] * xSpacing + pad;
+    const y2 = b.depth * ySpacing + topPad;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    // Gentle arc between siblings.
+    const midY = (y1 + y2) / 2 - 24;
+    path.setAttribute("d", `M${x1},${y1} Q${(x1+x2)/2},${midY} ${x2},${y2}`);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "#3b4a5f");
+    path.setAttribute("stroke-width", "1");
+    path.setAttribute("stroke-dasharray", "3,3");
+    rootG.appendChild(path);
+  }
+
+  // Parent → child tree links.
+  for (const n of COMBINE_NODES) {
+    if (n.parent_id == null) continue;
+    const p = COMBINE_NODES_BY_ID[n.parent_id];
+    if (!p) continue;
+    const x1 = X[p.id] * xSpacing + pad;
+    const y1 = p.depth * ySpacing + topPad;
+    const x2 = X[n.id] * xSpacing + pad;
+    const y2 = n.depth * ySpacing + topPad;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", `M${x1},${y1} C${x1},${(y1+y2)/2} ${x2},${(y1+y2)/2} ${x2},${y2}`);
+    path.setAttribute("class", "link");
+    rootG.appendChild(path);
+  }
+
+  // Nodes.
+  for (const n of COMBINE_NODES) {
+    const x = X[n.id] * xSpacing + pad;
+    const y = n.depth * ySpacing + topPad;
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("transform", `translate(${x},${y})`);
+    g.setAttribute("style", "cursor:pointer;");
+    g.addEventListener("click", () => {
+      COMBINE_SELECTED = n.id;
+      renderCombineSvg();   // re-render to update selection ring
+      renderCombineDetails();
+    });
+
+    // Color encoding:
+    //   - root  : accent
+    //   - block : good/warn/bad by verifier score
+    //   - split : pending (internal node, has further children)
+    //   - atom  : good if solved (has answer), muted otherwise
+    let fill = "var(--panel)";
+    let stroke = "var(--node-border)";
+    let r = 8;
+    if (n.type === "root") {
+      fill = "var(--accent)"; stroke = "var(--accent)"; r = 12;
+    } else if (n.type === "block") {
+      r = 10;
+      if (n.score == null) { stroke = "var(--muted)"; }
+      else if (n.score >= 0.75) { stroke = "var(--good)"; fill = "#1a2b1a"; }
+      else if (n.score >= 0.50) { stroke = "var(--warn)"; fill = "#2b251a"; }
+      else                       { stroke = "var(--bad)";  fill = "#2b1a1a"; }
+    } else if (n.type === "split") {
+      stroke = "var(--pending)"; r = 6;
+    } else if (n.type === "atom") {
+      stroke = (n.payload && n.payload.answer) ? "var(--good)" : "var(--muted)";
+      r = 5;
+    }
+    if (n.id === COMBINE_SELECTED) {
+      stroke = "var(--accent)";
+    }
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("r", String(r));
+    circle.setAttribute("fill", fill);
+    circle.setAttribute("stroke", stroke);
+    circle.setAttribute("stroke-width", n.id === COMBINE_SELECTED ? "3" : "1.5");
+    g.appendChild(circle);
+
+    // Label
+    const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    t.setAttribute("x", "0");
+    t.setAttribute("y", String(r + 12));
+    t.setAttribute("text-anchor", "middle");
+    t.setAttribute("fill", "var(--txt)");
+    t.setAttribute("font-size", n.type === "atom" ? "9" : "11");
+    t.textContent = n.label || "";
+    g.appendChild(t);
+
+    // Subtitle (answer / score / split count)
+    if (n.sub) {
+      const sub = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      sub.setAttribute("x", "0");
+      sub.setAttribute("y", String(r + 24));
+      sub.setAttribute("text-anchor", "middle");
+      sub.setAttribute("fill", "var(--muted)");
+      sub.setAttribute("font-size", "9");
+      sub.textContent = String(n.sub).slice(0, 30);
+      g.appendChild(sub);
+    }
+
+    rootG.appendChild(g);
+  }
+
+  // Fit viewport to content.
+  const maxX = Math.max(...Object.values(X)) * xSpacing + pad * 2;
+  const maxY = Math.max(...COMBINE_NODES.map(n => n.depth)) * ySpacing + topPad + 60;
+  svg.setAttribute("viewBox", `0 0 ${maxX} ${maxY}`);
+  svg.setAttribute("preserveAspectRatio", "xMidYMin meet");
+}
+
+// Minimal pan + wheel-zoom for the combine tree.
+function enableCombinePanZoom() {
+  const svg = document.getElementById("combine-svg");
+  if (!svg) return;
+  let isPanning = false, startX = 0, startY = 0, viewBox = null;
+  svg.addEventListener("mousedown", e => {
+    isPanning = true;
+    startX = e.clientX; startY = e.clientY;
+    const [x, y, w, h] = svg.getAttribute("viewBox").split(/\s+/).map(Number);
+    viewBox = [x, y, w, h];
+    svg.style.cursor = "grabbing";
+  });
+  svg.addEventListener("mousemove", e => {
+    if (!isPanning) return;
+    const [x, y, w, h] = viewBox;
+    const dx = (e.clientX - startX) * (w / svg.clientWidth);
+    const dy = (e.clientY - startY) * (h / svg.clientHeight);
+    svg.setAttribute("viewBox", `${x - dx} ${y - dy} ${w} ${h}`);
+  });
+  svg.addEventListener("mouseup",   () => { isPanning = false; svg.style.cursor = "grab"; });
+  svg.addEventListener("mouseleave",() => { isPanning = false; svg.style.cursor = "grab"; });
+  svg.addEventListener("wheel", e => {
+    e.preventDefault();
+    const [x, y, w, h] = svg.getAttribute("viewBox").split(/\s+/).map(Number);
+    const scale = e.deltaY > 0 ? 1.1 : 0.9;
+    const mx = x + (e.offsetX / svg.clientWidth) * w;
+    const my = y + (e.offsetY / svg.clientHeight) * h;
+    const nw = w * scale, nh = h * scale;
+    const nx = mx - (mx - x) * scale, ny = my - (my - y) * scale;
+    svg.setAttribute("viewBox", `${nx} ${ny} ${nw} ${nh}`);
+  }, {passive: false});
+}
+
+// ---------------------------------------------------------------------------
+// Right-panel details — dispatched by node type (root / block / split / atom)
+// ---------------------------------------------------------------------------
+
+function renderCombineDetails() {
+  if (!COMBINE) return;
+  const detailsEl = document.getElementById("d-content");
+  if (!detailsEl) return;
+  const n = COMBINE_SELECTED ? COMBINE_NODES_BY_ID[COMBINE_SELECTED] : null;
+  if (!n) {
+    detailsEl.innerHTML = `
+      <h2>Combine tree</h2>
+      <p style='color:var(--muted)'>Click any node in the tree to inspect it.
+      Color coding: <span style='color:var(--accent)'>root</span> /
+      <span style='color:var(--good)'>block accepted</span> /
+      <span style='color:var(--warn)'>block needs retry</span> /
+      <span style='color:var(--bad)'>block rejected</span> /
+      <span style='color:var(--pending)'>internal split</span> /
+      <span style='color:var(--good)'>atom solved</span> /
+      <span style='color:var(--muted)'>atom unsolved</span>.</p>
+    `;
+    return;
+  }
+  if (n.type === "root")  return renderCombineRootDetails(detailsEl);
+  if (n.type === "block") return renderCombineBlockDetails(detailsEl, n);
+  if (n.type === "split" || n.type === "atom")
+                            return renderCombineAtomDetails(detailsEl, n);
+}
+
+function renderCombineRootDetails(el) {
+  const s = COMBINE.synthesis;
+  let synthBlock = "<p style='color:var(--muted)'>(no synthesizer output)</p>";
+  if (s) {
+    const issues = (s.verifier_issues || []).length
+      ? "<h2>Synth verifier issues</h2><ul>" +
+        (s.verifier_issues || []).map(i => `<li style='color:var(--warn)'>${_esc(i)}</li>`).join("") +
+        "</ul>"
+      : "";
+    synthBlock = `
+      <h2>Final line (graded)</h2>
+      <pre style='background:var(--panel2);padding:8px;border-radius:4px;
+                   color:var(--accent);white-space:pre-wrap;'>${_esc(s.final_line)}</pre>
+      <div class="kv">
+        <span>list length</span>     <b>${s.actual_length} / ${s.heuristic_length} hint</b>
+        <span>verifier score</span>  <b>${(s.verifier_score||0).toFixed(2)}</b>
+        <span>consistent</span>      <b>${s.verifier_is_consistent}</b>
+        <span>retries</span>         <b>${s.n_retries}</b>
+      </div>
+      ${issues}
+      <h2>Synthesizer full response</h2>
+      <pre style='font-size:11px;background:var(--panel2);padding:8px;
+                   border-radius:4px;white-space:pre-wrap;'>${_esc(s.full_response || "")}</pre>
+    `;
+  }
+  el.innerHTML = `
+    <h2>Problem (root)</h2>
+    <pre style='font-size:11px;background:var(--panel2);padding:8px;
+                 border-radius:4px;white-space:pre-wrap;
+                 max-height:240px;overflow:auto;'>${
+      _esc((COMBINE.problem_text || "").slice(0, 4000))}</pre>
+    ${synthBlock}
+  `;
+}
+
+function renderCombineBlockDetails(el, n) {
+  const prov = n.payload && n.payload.prov ? n.payload.prov : {};
+  const atoms = prov.atomic_answers || [];
+  const attempts = prov.combiner_attempts || [];
+
+  let atomsHtml = "<p style='color:var(--muted)'>(no atomic answers committed)</p>";
+  if (atoms.length) {
+    atomsHtml = "<ol style='padding-left:20px'>" + atoms.map(a =>
+      `<li style='margin-bottom:6px;'>
+         <div style='color:var(--muted);font-size:11px;'>${_esc(a.atom_id)}</div>
+         <div style='color:var(--txt);font-size:12px;'>${_esc((a.question||"").slice(0,300))}</div>
+         <div style='color:var(--good);font-family:ui-monospace,monospace;font-size:12px;'>→ ${_esc(a.answer)}</div>
+       </li>`).join("") + "</ol>";
+  }
+
+  let attemptsHtml = "<p style='color:var(--muted)'>(no combiner attempts)</p>";
+  if (attempts.length) {
+    attemptsHtml = attempts.map(a => {
+      const v = a.verdict || {};
+      const score = v.score != null ? Number(v.score) : null;
+      const color = score == null ? "var(--muted)" :
+                    score >= 0.75 ? "var(--good)" :
+                    score >= 0.50 ? "var(--warn)" : "var(--bad)";
+      return `
+        <div style='margin-bottom:10px;padding:6px;border-left:2px solid ${color};'>
+          <div style='color:var(--muted);font-size:11px;'>
+            attempt #${a.attempt} — ${a.n_samples} samples,
+            verdict <b style='color:${color}'>${score == null ? "(none)" : score.toFixed(2)}</b>
+            ${v.is_consistent ? ", consistent" : ", INCONSISTENT"}
+          </div>
+          <div style='color:var(--txt);font-family:ui-monospace,monospace;font-size:12px;'>
+            ${_esc(a.candidate_answer || "(no answer)")}
+          </div>
+          ${(v.issues || []).length ? "<div style='color:var(--warn);font-size:11px;'>"
+            + (v.issues || []).map(_esc).map(s => "• " + s).join("<br/>")
+            + "</div>" : ""}
+        </div>`;
+    }).join("");
+  }
+
+  const refList = (n.refs && n.refs.length)
+    ? n.refs.map(_esc).join(", ")
+    : "(none — independent block)";
+
+  el.innerHTML = `
+    <h2>${_esc(n.label)} — block</h2>
+    <div class="kv">
+      <span>dependencies</span>  <b>${refList}</b>
+      <span>final answer</span>  <b style="font-family:ui-monospace,monospace;">${
+        _esc((prov.final_block_answer || "").slice(0,200))}</b>
+      <span>verifier score</span><b>${
+        prov.final_score != null ? Number(prov.final_score).toFixed(2) : "(n/a)"}</b>
+    </div>
+    <h2>Atomic answers (this block)</h2>
+    ${atomsHtml}
+    <h2>Combiner attempts &amp; verdicts</h2>
+    ${attemptsHtml}
+  `;
+}
+
+function renderCombineAtomDetails(el, n) {
+  const a = n.payload && n.payload.atom ? n.payload.atom : {};
+  const ans = n.payload && n.payload.answer;
+  el.innerHTML = `
+    <h2>${_esc(n.label)} — ${n.type === "split" ? "internal split" : "atomic unit"}</h2>
+    <div class="kv">
+      <span>atom_id</span>      <b style="font-family:ui-monospace,monospace;">${_esc(a.atom_id)}</b>
+      <span>depth</span>        <b>${a.depth}</b>
+      <span>is_atomic</span>    <b>${a.is_atomic}</b>
+      <span>split_reason</span> <b>${_esc(a.split_reason || "(n/a)")}</b>
+      <span>refs</span>         <b>${(a.refs && a.refs.length) ? a.refs.map(_esc).join(", ") : "(none)"}</b>
+    </div>
+    <h2>Question</h2>
+    <pre style='font-size:12px;background:var(--panel2);padding:8px;
+                 border-radius:4px;white-space:pre-wrap;'>${_esc(a.question || "")}</pre>
+    ${ans != null ? `
+      <h2>Atomic answer</h2>
+      <pre style='font-size:12px;background:var(--panel2);padding:8px;
+                   border-radius:4px;color:var(--good);
+                   font-family:ui-monospace,monospace;'>${_esc(ans)}</pre>
+    ` : "<h2>Atomic answer</h2><p style='color:var(--muted)'>(this atom was an internal split — see its children)</p>"}
+  `;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+# Per-role model config for the matrix-chain decomposition study.
+#
+# Roles (chosen to match the parent repo's monolithic matmul baseline, whose
+# executor was claude-opus-4-8, so the decomposed vs monolithic comparison
+# holds the executor fixed):
+#
+#   execution                       = claude-opus-4-8   (does the arithmetic)
+#   splitter / combiner / synthesizer = claude-sonnet-5 (restructure + assemble)
+#   classification / verification (block verifier) = claude-haiku-4-5 (cheap judge)
+#
+# temperature is set per role but is omitted automatically for models that
+# reject it (opus-4-8, sonnet-5) — see anthropic_adapter._NO_TEMPERATURE_MODELS.
+
+seed: 42
+solver: pipeline
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-5
+  temperature: 1.0
+  max_output_tokens: 4096
+  request_timeout_s: 180.0
+
+models:
+  execution:
+    provider: anthropic
+    model: claude-opus-4-8       # strongest executor; matches the baseline
+    temperature: 1.0             # diversity for the K-sample cluster (stripped)
+    max_output_tokens: 8192      # room to work through the sub-chain product
+
+  decomposition:
+    provider: anthropic
+    model: claude-sonnet-5
+    temperature: 0.3
+    max_output_tokens: 2048
+
+  classification:
+    provider: anthropic
+    model: claude-haiku-4-5
+    temperature: 0.0
+    max_output_tokens: 256
+
+  verification:                  # block-level scorer
+    provider: anthropic
+    model: claude-haiku-4-5
+    temperature: 0.0
+    max_output_tokens: 1024
+
+  splitter:
+    provider: anthropic
+    model: claude-sonnet-5
+    temperature: 0.3
+    max_output_tokens: 8192      # slices carry inlined matrices — needs room
+
+  combiner:
+    provider: anthropic
+    model: claude-sonnet-5
+    temperature: 0.5
+    max_output_tokens: 4096
+
+  synthesizer:
+    provider: anthropic
+    model: claude-sonnet-5       # assembles the final `solution = [[...]]`
+    temperature: 0.3
+    max_output_tokens: 8192
+
+  synth_verifier:
+    provider: anthropic
+    model: claude-sonnet-5
+    temperature: 0.0
+    max_output_tokens: 2048
+
+sampling:
+  K_blackbox: 3
+  K_whitebox: 3
+  laplace_a: 1.0
+
+mcts:
+  N: 64
+  c_puct: 3.0
+  C: 2.0
+  beta: 0.5
+  n_min: 3
+
+depth:
+  slack: 6
+  lam: 0.02
+
+confidence:
+  alpha: 0.25
+  tau_pre: 0.6
+  entail_threshold: 0.5
+
+coherence:
+  mode: incremental_hard
+  soft_relax: true
+
+pipeline:
+  # The per-node agent-call ceiling IS the "token/compute budget" the study
+  # holds fixed while it decomposes a long chain. Raise for longer horizons.
+  max_node_calls: 150
+  max_split_depth: 3
+  max_atoms_per_split: 5
+  atom_short_circuit_chars: 300
+  verifier_accept: 0.75
+  verifier_retry: 0.50
+  verifier_backtrack: 0.25
+  combiner_retries: 2
+  K_executor: 3
+  K_combiner: 3
+  sharedmem_topk: 3

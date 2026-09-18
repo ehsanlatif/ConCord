@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments / secrets
+.venv/
+venv/
+.env
+*.env
+
+# OS / editor
+.DS_Store
+
+# Local run telemetry (large / non-deterministic)
+**/*_agent_calls.jsonl
+**/*_rollouts.jsonl
+**/*_tree.json
+**/*.log
+
+# Weights & Biases
+wandb/

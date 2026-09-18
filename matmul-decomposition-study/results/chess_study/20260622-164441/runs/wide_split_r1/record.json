@@ -1,0 +1,141 @@
+{
+  "label": "wide_split",
+  "repeat": 1,
+  "run_tag": "wide_split_r1",
+  "vary": null,
+  "value": null,
+  "overrides": {
+    "pipeline.max_atoms_per_split": 5,
+    "pipeline.max_node_calls": 200
+  },
+  "key_params": {
+    "solver": "pipeline",
+    "mcts.N": 64,
+    "pipeline.K_executor": 3,
+    "pipeline.K_combiner": 3,
+    "pipeline.max_split_depth": 3,
+    "pipeline.max_atoms_per_split": 5,
+    "pipeline.max_node_calls": 200,
+    "pipeline.verifier_accept": 0.75,
+    "pipeline.combiner_retries": 2,
+    "confidence.alpha": 0.25,
+    "llm.temperature": 1.0
+  },
+  "role_models": {
+    "execution": "anthropic/claude-sonnet-4-6",
+    "splitter": "anthropic/claude-sonnet-4-6",
+    "combiner": "anthropic/claude-sonnet-4-6",
+    "verification": "anthropic/claude-sonnet-4-6",
+    "synthesizer": "anthropic/claude-opus-4-8",
+    "synth_verifier": "anthropic/claude-opus-4-8",
+    "decomposition": "anthropic/claude-sonnet-4-6",
+    "classification": "anthropic/claude-haiku-4-5"
+  },
+  "cost": {
+    "calls": 68,
+    "input_tokens": 49649,
+    "output_tokens": 31313,
+    "total_tokens": 80962,
+    "usd": 0.618642
+  },
+  "per_role_cost": {
+    "execution": {
+      "calls": 30,
+      "input_tokens": 6384,
+      "output_tokens": 20947,
+      "usd": 0.333357
+    },
+    "decomposition": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "classification": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "verification": {
+      "calls": 30,
+      "input_tokens": 30403,
+      "output_tokens": 7296,
+      "usd": 0.200649
+    },
+    "splitter": {
+      "calls": 3,
+      "input_tokens": 2399,
+      "output_tokens": 1904,
+      "usd": 0.035757
+    },
+    "combiner": {
+      "calls": 5,
+      "input_tokens": 10463,
+      "output_tokens": 1166,
+      "usd": 0.048879
+    },
+    "synthesizer": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "synth_verifier": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    }
+  },
+  "elapsed_s": 542.13,
+  "rollouts": 1,
+  "flagged": "budget_truncated",
+  "answer": "rnbqkbnr/pppp1p1p/8/4p1p1/7P/N7/PPPPPPPR/R1BQKBN1 b Qkq - 1 3",
+  "overall_correct": true,
+  "overall_board_match": true,
+  "atom_pass_rate": 1.0,
+  "n_atoms": 12,
+  "n_gradeable": 6,
+  "n_pass": 6,
+  "n_fail": 0,
+  "n_ungradeable": 6,
+  "decomposition_fidelity": 1.0,
+  "levels": {
+    "1": {
+      "n": 5,
+      "gradeable": 4,
+      "pass": 4,
+      "fail": 0,
+      "ungradeable": 1,
+      "slice_faithful": 4,
+      "slice_checked": 4,
+      "pass_rate": 1.0,
+      "slice_fidelity": 1.0
+    },
+    "2": {
+      "n": 5,
+      "gradeable": 1,
+      "pass": 1,
+      "fail": 0,
+      "ungradeable": 4,
+      "slice_faithful": 1,
+      "slice_checked": 1,
+      "pass_rate": 1.0,
+      "slice_fidelity": 1.0
+    },
+    "3": {
+      "n": 2,
+      "gradeable": 1,
+      "pass": 1,
+      "fail": 0,
+      "ungradeable": 1,
+      "slice_faithful": 1,
+      "slice_checked": 1,
+      "pass_rate": 1.0,
+      "slice_fidelity": 1.0
+    }
+  },
+  "trace_path": "results/chess_study/20260622-164441/runs/wide_split_r1/20260622-170035-f706e6-wide_split_r1/20260622-170035-f706e6-wide_split_r1.jsonl",
+  "run_dir": "results/chess_study/20260622-164441/runs/wide_split_r1"
+}

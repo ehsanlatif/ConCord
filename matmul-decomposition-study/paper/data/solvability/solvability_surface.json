@@ -1,0 +1,546 @@
+{
+  "threshold": 0.5,
+  "dims": [
+    1,
+    2,
+    3
+  ],
+  "systems": [
+    "Concord",
+    "ARIES",
+    "Graph of Thoughts",
+    "Select-Then-Decompose",
+    "Opus-4.8 (mono)",
+    "GPT-5.5 (mono)"
+  ],
+  "rows": [
+    {
+      "system": "Concord",
+      "d": 1,
+      "T": 100,
+      "usd": 0.3680763333333334,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 2,
+      "T": 100,
+      "usd": 1.2906643333333332,
+      "solve_rate": 0.6666666666666666,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 3,
+      "T": 100,
+      "usd": 2.061075666666667,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 1,
+      "T": 12,
+      "usd": 0.10718166666666666,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 2,
+      "T": 12,
+      "usd": 0.18799466666666667,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 3,
+      "T": 12,
+      "usd": 0.271885,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 1,
+      "T": 200,
+      "usd": 0.484645,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 2,
+      "T": 200,
+      "usd": 1.9427876666666666,
+      "solve_rate": 0.6666666666666666,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 3,
+      "T": 200,
+      "usd": 3.102879,
+      "solve_rate": 0.3333333333333333,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 1,
+      "T": 25,
+      "usd": 0.21297266666666667,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 2,
+      "T": 25,
+      "usd": 0.37055566666666667,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 3,
+      "T": 25,
+      "usd": 0.648752,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 1,
+      "T": 50,
+      "usd": 0.3008286666666667,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 2,
+      "T": 50,
+      "usd": 0.6510323333333333,
+      "solve_rate": 1.0,
+      "n": 3
+    },
+    {
+      "system": "Concord",
+      "d": 3,
+      "T": 50,
+      "usd": 1.0431053333333333,
+      "solve_rate": 0.3333333333333333,
+      "n": 3
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 2,
+      "T": 12,
+      "usd": 0.044811000000000004,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 2,
+      "T": 25,
+      "usd": 0.18879600000000002,
+      "solve_rate": 0.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 2,
+      "T": 50,
+      "usd": 0.5431250000000001,
+      "solve_rate": 0.0,
+      "n": 4
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 2,
+      "T": 100,
+      "usd": 1.502515,
+      "solve_rate": 0.0,
+      "n": 4
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 3,
+      "T": 12,
+      "usd": 0.09488500000000001,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 3,
+      "T": 25,
+      "usd": 0.244985,
+      "solve_rate": 0.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 3,
+      "T": 50,
+      "usd": 0.8011079999999999,
+      "solve_rate": 0.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 3,
+      "T": 100,
+      "usd": 1.381123,
+      "solve_rate": 0.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 1,
+      "T": 12,
+      "usd": 0.014139000000000002,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 1,
+      "T": 25,
+      "usd": 0.038681,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 1,
+      "T": 50,
+      "usd": 0.0968946,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 1,
+      "T": 100,
+      "usd": 0.27299100000000004,
+      "solve_rate": 1.0,
+      "n": 5
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 1,
+      "T": 200,
+      "usd": 0.7991624999999999,
+      "solve_rate": 0.0,
+      "n": 4
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 2,
+      "T": 200,
+      "usd": 2.782445,
+      "solve_rate": 0.0,
+      "n": 4
+    },
+    {
+      "system": "GPT-5.5 (mono)",
+      "d": 3,
+      "T": 200,
+      "usd": 2.821304,
+      "solve_rate": 0.0,
+      "n": 5
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 1,
+      "T": 12,
+      "usd": 0.054491250000000005,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 1,
+      "T": 25,
+      "usd": 0.17105937499999999,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 1,
+      "T": 50,
+      "usd": 0.359085875,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 1,
+      "T": 100,
+      "usd": 0.545473375,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 1,
+      "T": 200,
+      "usd": 1.165848375,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 3,
+      "T": 12,
+      "usd": 0.1955,
+      "solve_rate": 1.0,
+      "n": 6
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 3,
+      "T": 25,
+      "usd": 0.50905,
+      "solve_rate": 1.0,
+      "n": 6
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 3,
+      "T": 50,
+      "usd": 0.9190978333333333,
+      "solve_rate": 1.0,
+      "n": 6
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 3,
+      "T": 100,
+      "usd": 1.7905935,
+      "solve_rate": 1.0,
+      "n": 6
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 3,
+      "T": 200,
+      "usd": 3.9491856666666667,
+      "solve_rate": 1.0,
+      "n": 6
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 2,
+      "T": 12,
+      "usd": 0.107273125,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 2,
+      "T": 25,
+      "usd": 0.29199062499999995,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 2,
+      "T": 50,
+      "usd": 0.553094375,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 2,
+      "T": 100,
+      "usd": 0.983413125,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Opus-4.8 (mono)",
+      "d": 2,
+      "T": 200,
+      "usd": 2.17479125,
+      "solve_rate": 1.0,
+      "n": 8
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 1,
+      "T": 100,
+      "usd": 0.1292427,
+      "solve_rate": 1.0,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 1,
+      "T": 100,
+      "usd": 0.08393500000000001,
+      "solve_rate": 1.0,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 1,
+      "T": 100,
+      "usd": 0.5408264,
+      "solve_rate": 1.0,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 2,
+      "T": 50,
+      "usd": 0.5366227,
+      "solve_rate": 0.3,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 2,
+      "T": 50,
+      "usd": 0.645659,
+      "solve_rate": 1.0,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 2,
+      "T": 50,
+      "usd": 3.2145417000000003,
+      "solve_rate": 0.9,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 2,
+      "T": 100,
+      "usd": 0.8066924,
+      "solve_rate": 0.1,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 2,
+      "T": 100,
+      "usd": 1.7460089,
+      "solve_rate": 0.5,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 2,
+      "T": 100,
+      "usd": 3.0076497,
+      "solve_rate": 0.8,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 2,
+      "T": 200,
+      "usd": 1.530326,
+      "solve_rate": 0.1,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 2,
+      "T": 200,
+      "usd": 2.6034171,
+      "solve_rate": 0.0,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 2,
+      "T": 200,
+      "usd": 4.202122699999999,
+      "solve_rate": 0.9,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 3,
+      "T": 10,
+      "usd": 0.4757422,
+      "solve_rate": 0.9,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 3,
+      "T": 10,
+      "usd": 0.26992099999999997,
+      "solve_rate": 1.0,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 3,
+      "T": 10,
+      "usd": 1.9512379,
+      "solve_rate": 0.9,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 3,
+      "T": 20,
+      "usd": 0.9070423,
+      "solve_rate": 0.5,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 3,
+      "T": 20,
+      "usd": 0.704835,
+      "solve_rate": 0.8,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 3,
+      "T": 20,
+      "usd": 2.1721345,
+      "solve_rate": 0.8,
+      "n": 10
+    },
+    {
+      "system": "Select-Then-Decompose",
+      "d": 3,
+      "T": 50,
+      "usd": 1.1322299,
+      "solve_rate": 0.1,
+      "n": 10
+    },
+    {
+      "system": "Graph of Thoughts",
+      "d": 3,
+      "T": 50,
+      "usd": 2.0569306999999997,
+      "solve_rate": 0.0,
+      "n": 10
+    },
+    {
+      "system": "ARIES",
+      "d": 3,
+      "T": 50,
+      "usd": 3.8670160000000005,
+      "solve_rate": 0.9,
+      "n": 10
+    }
+  ]
+}

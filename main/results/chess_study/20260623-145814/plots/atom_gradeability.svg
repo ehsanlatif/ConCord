@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="640" viewBox="0 0 1080 640" role="img" aria-label="Atom grading breakdown by split depth">
+<style>
+text { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; fill: #172033; }
+.title { font-size: 22px; font-weight: 700; }
+.subtitle { font-size: 12px; fill: #64748B; }
+.label { font-size: 12px; fill: #334155; }
+.small { font-size: 10px; fill: #64748B; }
+.axis { stroke: #94A3B8; stroke-width: 1; }
+.grid { stroke: #E2E8F0; stroke-width: 1; }
+</style>
+<rect width="1080" height="640" fill="white"/>
+<text x="36" y="34" class="title">Atom grading breakdown by split depth</text>
+<text x="36" y="56" class="subtitle">Stacked counts show how many generated atoms passed, failed, or could not be graded.</text>
+<rect x="78.0" y="70.0" width="928.0" height="486.0" fill="#F8FAFC" stroke="#E5E7EB" stroke-width="1.0" rx="8.0" ry="8.0"/>
+<line x1="96.0" y1="96.0" x2="96.0" y2="506.0" stroke="#94A3B8" stroke-width="1.0"/>
+<line x1="96.0" y1="506.0" x2="956.0" y2="506.0" stroke="#94A3B8" stroke-width="1.0"/>
+<line x1="96.0" y1="506.0" x2="956.0" y2="506.0" stroke="#E2E8F0" stroke-width="1.0"/>
+<text x="87.0" y="510.0" text-anchor="end" style="font-size:11px;font-weight:normal;fill:#64748B;">0</text>
+<line x1="96.0" y1="301.0" x2="956.0" y2="301.0" stroke="#E2E8F0" stroke-width="1.0"/>
+<text x="87.0" y="305.0" text-anchor="end" style="font-size:11px;font-weight:normal;fill:#64748B;">250</text>
+<line x1="96.0" y1="96.0" x2="956.0" y2="96.0" stroke="#E2E8F0" stroke-width="1.0"/>
+<text x="87.0" y="100.0" text-anchor="end" style="font-size:11px;font-weight:normal;fill:#64748B;">500</text>
+<rect x="124.0" y="506.0" width="110.7" height="0.0" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="124.0" y="506.0" width="110.7" height="0.0" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="124.0" y="504.4" width="110.7" height="1.6" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="179.3" y="496.4" text-anchor="middle" style="font-size:10px;font-weight:normal;">2</text>
+<text x="179.3" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d1</text>
+<text x="179.3" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">0% gradeable</text>
+<rect x="262.7" y="505.2" width="110.7" height="0.8" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="262.7" y="502.7" width="110.7" height="2.5" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="262.7" y="497.0" width="110.7" height="5.7" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="318.0" y="489.0" text-anchor="middle" style="font-size:10px;font-weight:normal;">11</text>
+<text x="318.0" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d2</text>
+<text x="318.0" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">36% gradeable</text>
+<rect x="401.3" y="505.2" width="110.7" height="0.8" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="401.3" y="501.1" width="110.7" height="4.1" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="401.3" y="474.8" width="110.7" height="26.2" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="456.7" y="466.8" text-anchor="middle" style="font-size:10px;font-weight:normal;">38</text>
+<text x="456.7" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d3</text>
+<text x="456.7" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">16% gradeable</text>
+<rect x="540.0" y="505.2" width="110.7" height="0.8" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="540.0" y="499.4" width="110.7" height="5.7" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="540.0" y="456.8" width="110.7" height="42.6" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="595.3" y="448.8" text-anchor="middle" style="font-size:10px;font-weight:normal;">60</text>
+<text x="595.3" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d4</text>
+<text x="595.3" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">13% gradeable</text>
+<rect x="678.7" y="501.1" width="110.7" height="4.9" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="678.7" y="500.3" width="110.7" height="0.8" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="678.7" y="407.6" width="110.7" height="92.7" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="734.0" y="399.6" text-anchor="middle" style="font-size:10px;font-weight:normal;">120</text>
+<text x="734.0" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d5</text>
+<text x="734.0" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">6% gradeable</text>
+<rect x="817.3" y="497.0" width="110.7" height="9.0" fill="#2F855A" rx="2.0" ry="2.0"/>
+<rect x="817.3" y="481.4" width="110.7" height="15.6" fill="#DC2626" rx="2.0" ry="2.0"/>
+<rect x="817.3" y="316.6" width="110.7" height="164.8" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="872.7" y="308.6" text-anchor="middle" style="font-size:10px;font-weight:normal;">231</text>
+<text x="872.7" y="527.0" text-anchor="middle" style="font-size:12px;font-weight:normal;fill:#64748B;">d6</text>
+<text x="872.7" y="544.0" text-anchor="middle" style="font-size:9px;font-weight:normal;fill:#64748B;">13% gradeable</text>
+<rect x="576.0" y="45.0" width="12.0" height="12.0" fill="#2F855A" rx="2.0" ry="2.0"/>
+<text x="594.0" y="56.0" text-anchor="start" style="font-size:12px;font-weight:normal;fill:#64748B;">pass</text>
+<rect x="644.8" y="45.0" width="12.0" height="12.0" fill="#DC2626" rx="2.0" ry="2.0"/>
+<text x="662.8" y="56.0" text-anchor="start" style="font-size:12px;font-weight:normal;fill:#64748B;">fail</text>
+<rect x="713.6" y="45.0" width="12.0" height="12.0" fill="#CBD5E1" rx="2.0" ry="2.0"/>
+<text x="731.6" y="56.0" text-anchor="start" style="font-size:12px;font-weight:normal;fill:#64748B;">ungradeable</text>
+<text x="526.0" y="590.0" text-anchor="middle" style="font-size:13px;font-weight:600;">split depth</text>
+<text x="30.0" y="301.0" text-anchor="middle" style="font-size:13px;font-weight:600;" transform="rotate(-90.0 30.0 301.0)">atom count</text>
+</svg>

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments / secrets
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+
+# Agent/session scratch
+.claude/
+
+# Showcase results under results/ ARE tracked. New local run output that the
+# experiments write live (telemetry traces, raw API-call logs) is not:
+results/concord/
+results/**/*_agent_calls.jsonl
+results/**/*_rollouts.jsonl
+results/**/*_tree.json
+results/**/*.log
+
+# Weights & Biases local run cache
+wandb/

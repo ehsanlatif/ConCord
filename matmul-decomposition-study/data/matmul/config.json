@@ -1,0 +1,85 @@
+{
+  "benchmark": "matmul_chain_horizon_execution",
+  "description": "Static golden-labeled dataset. Running matrix product mod p; horizon T = #turns, complexity d = matrix dim.",
+  "dims": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "max_turns": 2000,
+  "num_samples": 10,
+  "modulus": 97,
+  "seed": 7,
+  "per_chain_seed_formula": "seed*100000 + dim*1000 + sample_id",
+  "files": [
+    {
+      "file": "chains_d1.jsonl",
+      "dim": 1,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 259185,
+      "sha256": "9723f9a385d6397b97581c4ef4a8633c78d030995e81e63b7901aa0691171429"
+    },
+    {
+      "file": "chains_d2.jsonl",
+      "dim": 2,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 693504,
+      "sha256": "4223b1c8193403ef0ca1ec3fb502ef71345b3eb60aa7006a182aff4753cc6860"
+    },
+    {
+      "file": "chains_d3.jsonl",
+      "dim": 3,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 1363783,
+      "sha256": "49d4d26c642a5f83ff7e5a864079152a3bc662acce7650a69af64a6c79cda296"
+    },
+    {
+      "file": "chains_d4.jsonl",
+      "dim": 4,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 2254421,
+      "sha256": "d05bef7d7eee7e68518b54c3713bf699c609c5233ad5d36d9ab050834cfad798"
+    },
+    {
+      "file": "chains_d5.jsonl",
+      "dim": 5,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 3378264,
+      "sha256": "a46de24f12280bb43bfff579b5775fb91d425c43478029b95eee6d127569e236"
+    },
+    {
+      "file": "chains_d6.jsonl",
+      "dim": 6,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 4733055,
+      "sha256": "dda9103e8cf9c24aa16085a418d43ae9588b3dcde33070b1a3defce62c18948d"
+    },
+    {
+      "file": "chains_d7.jsonl",
+      "dim": 7,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 6318956,
+      "sha256": "28cd4561b9ae3306843748e89eeaab2464026a3b945630322a9fb7ae7ae9dea5"
+    },
+    {
+      "file": "chains_d8.jsonl",
+      "dim": 8,
+      "num_samples": 10,
+      "n_turns": 2000,
+      "bytes": 8136329,
+      "sha256": "bcb07424d0d3bba480d6e9f0752517f674418b2b39dd22bedc636759162bf8bf"
+    }
+  ]
+}

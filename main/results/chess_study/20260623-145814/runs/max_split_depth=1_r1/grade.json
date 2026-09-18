@@ -1,0 +1,71 @@
+{
+  "gold_fen": "r1bqkb1r/2pp1p1p/n7/p5pP/1p1PpnPR/NP6/P1PQPP2/R1B1KBN1 w Qkq - 1 11",
+  "final_answer_fen": "r1bqkb1r/2pp3p/n7/p5pP/1p1PpnPR/NP6/P1PQP3/R1B1KB1N w Qkq - 1 11",
+  "overall_correct": false,
+  "overall_board_match": false,
+  "n_atoms": 2,
+  "n_gradeable": 0,
+  "n_pass": 0,
+  "n_fail": 0,
+  "n_ungradeable": 2,
+  "atom_pass_rate": null,
+  "decomposition_fidelity": null,
+  "n_slice_checked": 0,
+  "n_slice_faithful": 0,
+  "levels": {
+    "1": {
+      "n": 2,
+      "gradeable": 0,
+      "pass": 0,
+      "fail": 0,
+      "ungradeable": 2,
+      "slice_faithful": 0,
+      "slice_checked": 0,
+      "pass_rate": null,
+      "slice_fidelity": null
+    }
+  },
+  "blocks": [
+    {
+      "block_node_id": "scc_0",
+      "final_block_answer": "r1bqkb1r/2pp3p/n7/p5pP/1p1PpnPR/NP6/P1PQP3/R1B1KB1N w Qkq - 1 11",
+      "final_block_board_match": false,
+      "final_block_exact_match": false,
+      "final_score": 0.75,
+      "atom_results": [
+        {
+          "status": "UNGRADEABLE",
+          "reason": "replay_illegal (illegal uci: 'h4h5' in rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1)",
+          "n_moves": 12,
+          "input_ply": 0,
+          "move_range": null,
+          "slice_faithful": null,
+          "expected_fen": null,
+          "answer_fen": null,
+          "board_match": false,
+          "exact_match": false,
+          "atom_id": "scc_0/d0/a0/a0",
+          "depth": 1,
+          "is_atomic": true,
+          "has_children": false
+        },
+        {
+          "status": "UNGRADEABLE",
+          "reason": "replay_illegal (illegal uci: 'a7a5' in rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1)",
+          "n_moves": 11,
+          "input_ply": 0,
+          "move_range": null,
+          "slice_faithful": null,
+          "expected_fen": null,
+          "answer_fen": null,
+          "board_match": false,
+          "exact_match": false,
+          "atom_id": "scc_0/d0/a0/a1",
+          "depth": 1,
+          "is_atomic": true,
+          "has_children": false
+        }
+      ]
+    }
+  ]
+}

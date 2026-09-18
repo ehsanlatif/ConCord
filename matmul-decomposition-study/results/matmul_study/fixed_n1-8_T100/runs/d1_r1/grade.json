@@ -1,0 +1,60 @@
+{
+  "overall_correct": true,
+  "overall_board_match": true,
+  "atom_pass_rate": 1.0,
+  "n_atoms": 3,
+  "n_gradeable": 3,
+  "n_pass": 3,
+  "n_fail": 0,
+  "n_ungradeable": 0,
+  "decomposition_fidelity": 0.52,
+  "contiguity_rate": 1.0,
+  "chain_coverage": 0.04,
+  "overlap_positions": 1,
+  "levels": {
+    "1": {
+      "pass": 3,
+      "gradeable": 3,
+      "ungradeable": 0,
+      "pass_rate": 1.0
+    }
+  },
+  "atom_records": [
+    {
+      "atom_id": "scc_0/d0/a0/a0",
+      "status": "PASS",
+      "style": "running_state",
+      "slice": [
+        1,
+        3
+      ],
+      "contiguous": true,
+      "n_factors": 3,
+      "depth": 1
+    },
+    {
+      "atom_id": "scc_0/d0/a0/a1",
+      "status": "PASS",
+      "style": "running_state",
+      "slice": [
+        4,
+        4
+      ],
+      "contiguous": true,
+      "n_factors": 1,
+      "depth": 1
+    },
+    {
+      "atom_id": "scc_0/d0/a0/a2",
+      "status": "PASS",
+      "style": "running_state",
+      "slice": [
+        4,
+        4
+      ],
+      "contiguous": true,
+      "n_factors": 1,
+      "depth": 1
+    }
+  ]
+}

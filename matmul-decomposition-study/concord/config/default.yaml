@@ -1,0 +1,54 @@
+# Concord default configuration. Mirrors §9 of the implementation plan.
+# Values here are the v2 defaults; ablation YAMLs override them.
+
+seed: 42
+
+llm:
+  provider: mock
+  model: mock-v0
+  temperature: 1.0
+  max_output_tokens: 4096
+  request_timeout_s: 120.0
+
+sampling:
+  K_whitebox: 8
+  K_blackbox: 16
+  laplace_a: 1.0
+
+confidence:
+  tau_pre: 0.6
+  entail_threshold: 0.5
+  alpha: 0.25
+  embed_model: all-MiniLM-L6-v2
+  nli_model: microsoft/deberta-v3-base-mnli
+
+mcts:
+  c_puct: 3.0
+  C: 2.0
+  beta: 0.5
+  n_min: 3
+  N: 128
+
+depth:
+  slack: 2
+  lam: 0.02
+  budget_cap: null
+
+coherence:
+  mode: incremental_hard
+  soft_relax: true
+
+telemetry:
+  log_dir: results/concord
+  jsonl: true
+  wandb: false
+  mlflow: false
+
+ablation:
+  confidence: semantic_density
+  cluster: entail_hybrid
+  backup: guarded_max
+  widening: progressive
+  gate: incremental_hard
+  depth: adaptive
+  weight_oracle: auto

@@ -1,0 +1,166 @@
+{
+  "label": "max_split_depth=5",
+  "repeat": 1,
+  "run_tag": "max_split_depth=5_r1",
+  "vary": "pipeline.max_split_depth",
+  "value": 5,
+  "overrides": {
+    "pipeline.K_executor": 1,
+    "pipeline.K_combiner": 1,
+    "mcts.N": 256,
+    "pipeline.max_node_calls": 5000,
+    "pipeline.max_split_depth": 5
+  },
+  "key_params": {
+    "solver": "pipeline",
+    "mcts.N": 256,
+    "pipeline.K_executor": 1,
+    "pipeline.K_combiner": 1,
+    "pipeline.max_split_depth": 5,
+    "pipeline.max_atoms_per_split": 3,
+    "pipeline.max_node_calls": 5000,
+    "pipeline.verifier_accept": 0.75,
+    "pipeline.combiner_retries": 2,
+    "confidence.alpha": 0.25,
+    "llm.temperature": 1.0
+  },
+  "role_models": {
+    "execution": "anthropic/claude-sonnet-4-6",
+    "splitter": "anthropic/claude-sonnet-4-6",
+    "combiner": "anthropic/claude-sonnet-4-6",
+    "verification": "anthropic/claude-sonnet-4-6",
+    "synthesizer": "anthropic/claude-opus-4-8",
+    "synth_verifier": "anthropic/claude-opus-4-8",
+    "decomposition": "anthropic/claude-sonnet-4-6",
+    "classification": "anthropic/claude-haiku-4-5"
+  },
+  "cost": {
+    "calls": 255,
+    "input_tokens": 451367,
+    "output_tokens": 140262,
+    "total_tokens": 591629,
+    "usd": 3.458031
+  },
+  "per_role_cost": {
+    "execution": {
+      "calls": 76,
+      "input_tokens": 25247,
+      "output_tokens": 53579,
+      "usd": 0.879426
+    },
+    "decomposition": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "classification": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "verification": {
+      "calls": 82,
+      "input_tokens": 209001,
+      "output_tokens": 23153,
+      "usd": 0.974298
+    },
+    "splitter": {
+      "calls": 50,
+      "input_tokens": 40043,
+      "output_tokens": 36385,
+      "usd": 0.665904
+    },
+    "combiner": {
+      "calls": 47,
+      "input_tokens": 177076,
+      "output_tokens": 27145,
+      "usd": 0.938403
+    },
+    "synthesizer": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "synth_verifier": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    }
+  },
+  "elapsed_s": 2444.17,
+  "rollouts": 256,
+  "flagged": null,
+  "answer": "r1bqkb1r/2pp1p1p/n7/p5pP/1p1PpnPR/NP6/P1PQPP2/R1B1KBN1 w Qkq - 1 11",
+  "overall_correct": true,
+  "overall_board_match": true,
+  "atom_pass_rate": 0.8571428571428571,
+  "n_atoms": 120,
+  "n_gradeable": 7,
+  "n_pass": 6,
+  "n_fail": 1,
+  "n_ungradeable": 113,
+  "decomposition_fidelity": 0.6666666666666666,
+  "levels": {
+    "1": {
+      "n": 3,
+      "gradeable": 0,
+      "pass": 0,
+      "fail": 0,
+      "ungradeable": 3,
+      "slice_faithful": 0,
+      "slice_checked": 0,
+      "pass_rate": null,
+      "slice_fidelity": null
+    },
+    "2": {
+      "n": 7,
+      "gradeable": 0,
+      "pass": 0,
+      "fail": 0,
+      "ungradeable": 7,
+      "slice_faithful": 0,
+      "slice_checked": 0,
+      "pass_rate": null,
+      "slice_fidelity": null
+    },
+    "3": {
+      "n": 16,
+      "gradeable": 2,
+      "pass": 1,
+      "fail": 1,
+      "ungradeable": 14,
+      "slice_faithful": 1,
+      "slice_checked": 2,
+      "pass_rate": 0.5,
+      "slice_fidelity": 0.5
+    },
+    "4": {
+      "n": 32,
+      "gradeable": 2,
+      "pass": 2,
+      "fail": 0,
+      "ungradeable": 30,
+      "slice_faithful": 2,
+      "slice_checked": 2,
+      "pass_rate": 1.0,
+      "slice_fidelity": 1.0
+    },
+    "5": {
+      "n": 62,
+      "gradeable": 3,
+      "pass": 3,
+      "fail": 0,
+      "ungradeable": 59,
+      "slice_faithful": 1,
+      "slice_checked": 2,
+      "pass_rate": 1.0,
+      "slice_fidelity": 0.5
+    }
+  },
+  "trace_path": "results/chess_study/20260623-145814/runs/max_split_depth=5_r1/20260623-153448-c00c71-max_split_depth=5_r1/20260623-153448-c00c71-max_split_depth=5_r1.jsonl",
+  "run_dir": "results/chess_study/20260623-145814/runs/max_split_depth=5_r1"
+}

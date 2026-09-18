@@ -1,0 +1,1124 @@
+{
+  "meta": {
+    "dims": [
+      1,
+      2,
+      3
+    ],
+    "max_turns": 12,
+    "sample_id": 0,
+    "base_config": "concord/config/matmul_per_role_trimexec.yaml",
+    "mock": false,
+    "repeats": 3,
+    "started_at": "20260916-165219"
+  },
+  "n_runs": 9,
+  "by_dim": {
+    "1": {
+      "n_runs": 3,
+      "solve_rate": 1.0,
+      "mean_atom_pass_rate": 1.0,
+      "mean_fidelity": 1.0,
+      "mean_total_tokens": 22310.333333333332,
+      "mean_usd": 0.10718166666666666,
+      "mean_calls": 26.0
+    },
+    "2": {
+      "n_runs": 3,
+      "solve_rate": 1.0,
+      "mean_atom_pass_rate": 1.0,
+      "mean_fidelity": 1.0,
+      "mean_total_tokens": 30032.0,
+      "mean_usd": 0.18799466666666667,
+      "mean_calls": 26.666666666666668
+    },
+    "3": {
+      "n_runs": 3,
+      "solve_rate": 1.0,
+      "mean_atom_pass_rate": 1.0,
+      "mean_fidelity": 1.0,
+      "mean_total_tokens": 34423.0,
+      "mean_usd": 0.271885,
+      "mean_calls": 21.333333333333332
+    }
+  },
+  "runs": [
+    {
+      "dim": 1,
+      "repeat": 1,
+      "run_tag": "d1_r1",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 24,
+        "input_tokens": 16191,
+        "output_tokens": 5253,
+        "total_tokens": 21444,
+        "usd": 0.103872
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 7,
+          "input_tokens": 2291,
+          "output_tokens": 690,
+          "usd": 0.028705
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 7,
+          "input_tokens": 1994,
+          "output_tokens": 3099,
+          "usd": 0.017489
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1464,
+          "usd": 0.057678
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1464,
+          "usd": 0.057678
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 68.45,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[0]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 11,
+      "n_gradeable": 11,
+      "n_pass": 11,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 2,
+          "gradeable": 2,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d1_r1/20260916-165220-592451-d1_r1/20260916-165220-592451-d1_r1.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d1_r1"
+    },
+    {
+      "dim": 1,
+      "repeat": 2,
+      "run_tag": "d1_r2",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 30,
+        "input_tokens": 17616,
+        "output_tokens": 6222,
+        "total_tokens": 23838,
+        "usd": 0.113214
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 10,
+          "input_tokens": 3169,
+          "output_tokens": 645,
+          "usd": 0.03197
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 10,
+          "input_tokens": 2541,
+          "output_tokens": 4067,
+          "usd": 0.022876
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1510,
+          "usd": 0.058368
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1510,
+          "usd": 0.058368
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 80.18,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[0]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 17,
+      "n_gradeable": 17,
+      "n_pass": 17,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 8,
+          "gradeable": 8,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d1_r2/20260916-165329-a82ea3-d1_r2/20260916-165329-a82ea3-d1_r2.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d1_r2"
+    },
+    {
+      "dim": 1,
+      "repeat": 3,
+      "run_tag": "d1_r3",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 24,
+        "input_tokens": 16226,
+        "output_tokens": 5423,
+        "total_tokens": 21649,
+        "usd": 0.104459
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 7,
+          "input_tokens": 2309,
+          "output_tokens": 707,
+          "usd": 0.02922
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 7,
+          "input_tokens": 2011,
+          "output_tokens": 3323,
+          "usd": 0.018626
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1393,
+          "usd": 0.056613
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11906,
+          "output_tokens": 1393,
+          "usd": 0.056613
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 72.48,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[0]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 11,
+      "n_gradeable": 11,
+      "n_pass": 11,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 2,
+          "gradeable": 2,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d1_r3/20260916-165449-7a300f-d1_r3/20260916-165449-7a300f-d1_r3.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d1_r3"
+    },
+    {
+      "dim": 2,
+      "repeat": 1,
+      "run_tag": "d2_r1",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 26,
+        "input_tokens": 19652,
+        "output_tokens": 10553,
+        "total_tokens": 30205,
+        "usd": 0.191381
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 8,
+          "input_tokens": 2760,
+          "output_tokens": 3478,
+          "usd": 0.10075
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 8,
+          "input_tokens": 4895,
+          "output_tokens": 5638,
+          "usd": 0.033085
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1437,
+          "usd": 0.057546
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1437,
+          "usd": 0.057546
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 96.14,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[87, 43], [25, 38]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 13,
+      "n_gradeable": 13,
+      "n_pass": 13,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 4,
+          "gradeable": 4,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d2_r1/20260916-165602-f4183f-d2_r1/20260916-165602-f4183f-d2_r1.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d2_r1"
+    },
+    {
+      "dim": 2,
+      "repeat": 2,
+      "run_tag": "d2_r2",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 26,
+        "input_tokens": 19237,
+        "output_tokens": 9882,
+        "total_tokens": 29119,
+        "usd": 0.178533
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 8,
+          "input_tokens": 2728,
+          "output_tokens": 3051,
+          "usd": 0.089915
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 8,
+          "input_tokens": 4512,
+          "output_tokens": 5435,
+          "usd": 0.031687
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1396,
+          "usd": 0.056931
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1396,
+          "usd": 0.056931
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 95.21,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[87,43],[25,38]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 13,
+      "n_gradeable": 13,
+      "n_pass": 13,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 4,
+          "gradeable": 4,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d2_r2/20260916-165738-2811c0-d2_r2/20260916-165738-2811c0-d2_r2.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d2_r2"
+    },
+    {
+      "dim": 2,
+      "repeat": 3,
+      "run_tag": "d2_r3",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 28,
+        "input_tokens": 20149,
+        "output_tokens": 10623,
+        "total_tokens": 30772,
+        "usd": 0.19407
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 9,
+          "input_tokens": 3038,
+          "output_tokens": 3498,
+          "usd": 0.10264
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 9,
+          "input_tokens": 5114,
+          "output_tokens": 5655,
+          "usd": 0.033389
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1470,
+          "usd": 0.058041
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 11997,
+          "output_tokens": 1470,
+          "usd": 0.058041
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 98.65,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[87, 43], [25, 38]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 15,
+      "n_gradeable": 15,
+      "n_pass": 15,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d2_r3/20260916-165914-41838e-d2_r3/20260916-165914-41838e-d2_r3.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d2_r3"
+    },
+    {
+      "dim": 3,
+      "repeat": 1,
+      "run_tag": "d3_r1",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 24,
+        "input_tokens": 23221,
+        "output_tokens": 14381,
+        "total_tokens": 37602,
+        "usd": 0.287322
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 7,
+          "input_tokens": 2669,
+          "output_tokens": 7192,
+          "usd": 0.193145
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 7,
+          "input_tokens": 8412,
+          "output_tokens": 5849,
+          "usd": 0.037657
+        },
+        "splitter": {
+          "calls": 10,
+          "input_tokens": 12140,
+          "output_tokens": 1340,
+          "usd": 0.05652
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 10,
+          "input_tokens": 12140,
+          "output_tokens": 1340,
+          "usd": 0.05652
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 127.53,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[56, 2, 34], [38, 37, 44], [41, 11, 66]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 11,
+      "n_gradeable": 11,
+      "n_pass": 11,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 6,
+          "gradeable": 6,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "3": {
+          "pass": 2,
+          "gradeable": 2,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d3_r1/20260916-170052-c502e4-d3_r1/20260916-170052-c502e4-d3_r1.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d3_r1"
+    },
+    {
+      "dim": 3,
+      "repeat": 2,
+      "run_tag": "d3_r2",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 20,
+        "input_tokens": 19987,
+        "output_tokens": 12962,
+        "total_tokens": 32949,
+        "usd": 0.264343
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 6,
+          "input_tokens": 2301,
+          "output_tokens": 6989,
+          "usd": 0.18623
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 6,
+          "input_tokens": 7905,
+          "output_tokens": 4873,
+          "usd": 0.03227
+        },
+        "splitter": {
+          "calls": 8,
+          "input_tokens": 9781,
+          "output_tokens": 1100,
+          "usd": 0.045843
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 8,
+          "input_tokens": 9781,
+          "output_tokens": 1100,
+          "usd": 0.045843
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 120.14,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[56,2,34],[38,37,44],[41,11,66]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 7,
+      "n_gradeable": 7,
+      "n_pass": 7,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 4,
+          "gradeable": 4,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d3_r2/20260916-170300-3b4205-d3_r2/20260916-170300-3b4205-d3_r2.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d3_r2"
+    },
+    {
+      "dim": 3,
+      "repeat": 3,
+      "run_tag": "d3_r3",
+      "sample_id": 0,
+      "max_turns": 12,
+      "overrides": {},
+      "key_params": {
+        "solver": "pipeline",
+        "mcts.N": 64,
+        "pipeline.K_executor": 1,
+        "pipeline.K_combiner": 3,
+        "pipeline.max_split_depth": 3,
+        "pipeline.max_atoms_per_split": 5,
+        "pipeline.max_node_calls": 600,
+        "pipeline.verifier_accept": 0.75
+      },
+      "role_models": {
+        "execution": "anthropic/claude-opus-4-8",
+        "splitter": "anthropic/claude-sonnet-5",
+        "combiner": "anthropic/claude-sonnet-5",
+        "verification": "anthropic/claude-haiku-4-5",
+        "synthesizer": "anthropic/claude-sonnet-5",
+        "synth_verifier": "anthropic/claude-sonnet-5",
+        "decomposition": "anthropic/claude-sonnet-5",
+        "classification": "anthropic/claude-haiku-4-5"
+      },
+      "cost": {
+        "calls": 20,
+        "input_tokens": 20079,
+        "output_tokens": 12639,
+        "total_tokens": 32718,
+        "usd": 0.26399
+      },
+      "per_role_cost": {
+        "execution": {
+          "calls": 6,
+          "input_tokens": 2301,
+          "output_tokens": 7032,
+          "usd": 0.187305
+        },
+        "decomposition": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "classification": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "verification": {
+          "calls": 6,
+          "input_tokens": 7997,
+          "output_tokens": 4476,
+          "usd": 0.030377
+        },
+        "splitter": {
+          "calls": 8,
+          "input_tokens": 9781,
+          "output_tokens": 1131,
+          "usd": 0.046308
+        },
+        "combiner": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        },
+        "synthesizer": {
+          "calls": 8,
+          "input_tokens": 9781,
+          "output_tokens": 1131,
+          "usd": 0.046308
+        },
+        "synth_verifier": {
+          "calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usd": 0.0
+        }
+      },
+      "elapsed_s": 119.1,
+      "rollouts": 64,
+      "flagged": null,
+      "answer": "[[56,2,34],[38,37,44],[41,11,66]]",
+      "overall_correct": true,
+      "atom_pass_rate": 1.0,
+      "n_atoms": 7,
+      "n_gradeable": 7,
+      "n_pass": 7,
+      "n_fail": 0,
+      "n_ungradeable": 0,
+      "decomposition_fidelity": 1.0,
+      "contiguity_rate": 1.0,
+      "chain_coverage": 1.0,
+      "levels": {
+        "1": {
+          "pass": 4,
+          "gradeable": 4,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        },
+        "2": {
+          "pass": 3,
+          "gradeable": 3,
+          "ungradeable": 0,
+          "pass_rate": 1.0
+        }
+      },
+      "trace_path": "results/matmul_budget_study/trimexec_T12/runs/d3_r3/20260916-170501-dc232b-d3_r3/20260916-170501-dc232b-d3_r3.jsonl",
+      "run_dir": "results/matmul_budget_study/trimexec_T12/runs/d3_r3"
+    }
+  ]
+}

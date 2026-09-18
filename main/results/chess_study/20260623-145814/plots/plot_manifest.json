@@ -1,0 +1,13 @@
+{
+  "source_json": "study_summary.json",
+  "source_csv": "study_summary.csv",
+  "insights_report": "study_plots_and_insights.md",
+  "plots": [
+    "plots/depth_outcomes.svg",
+    "plots/resource_scaling.svg",
+    "plots/token_accuracy_frontier.svg",
+    "plots/atom_gradeability.svg",
+    "plots/role_cost_mix.svg",
+    "plots/level_breakdown.svg"
+  ]
+}

@@ -1,0 +1,17 @@
+# Mock-everywhere profile: no API calls, deterministic. Used for CI and
+# smoke testing the harness without paying for inference.
+
+seed: 42
+
+llm:
+  provider: mock
+  model: mock-v0
+  temperature: 1.0
+
+models: {}
+
+sampling:
+  K_blackbox: 4
+
+mcts:
+  N: 8

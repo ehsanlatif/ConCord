@@ -1,0 +1,55 @@
+{
+  "gold_fen": "4B3/5n2/r3rR2/p7/Ppp1b2p/1PP5/1Kn1N1k1/7n w - - 44 326",
+  "final_answer_fen": "8/8/4R3/8/4B3/8/1bBnr3/6K1 b - - 2 567",
+  "overall_correct": false,
+  "overall_board_match": false,
+  "n_atoms": 1,
+  "n_gradeable": 0,
+  "n_pass": 0,
+  "n_fail": 0,
+  "n_ungradeable": 1,
+  "atom_pass_rate": null,
+  "decomposition_fidelity": null,
+  "n_slice_checked": 0,
+  "n_slice_faithful": 0,
+  "levels": {
+    "0": {
+      "n": 1,
+      "gradeable": 0,
+      "pass": 0,
+      "fail": 0,
+      "ungradeable": 1,
+      "slice_faithful": 0,
+      "slice_checked": 0,
+      "pass_rate": null,
+      "slice_fidelity": null
+    }
+  },
+  "blocks": [
+    {
+      "block_node_id": "scc_0",
+      "final_block_answer": "8/8/4R3/8/4B3/8/1bBnr3/6K1 b - - 2 567",
+      "final_block_board_match": false,
+      "final_block_exact_match": false,
+      "final_score": 0.75,
+      "atom_results": [
+        {
+          "status": "UNGRADEABLE",
+          "reason": "replay_illegal (illegal uci: 'e2e4' in 4B3/5n2/r3rR2/p7/Ppp1b2p/1PP5/1Kn1N1k1/7n w - - 44 326)",
+          "n_moves": 652,
+          "input_ply": 0,
+          "move_range": null,
+          "slice_faithful": null,
+          "expected_fen": null,
+          "answer_fen": null,
+          "board_match": false,
+          "exact_match": false,
+          "atom_id": "scc_0/d0/a0",
+          "depth": 0,
+          "is_atomic": true,
+          "has_children": false
+        }
+      ]
+    }
+  ]
+}

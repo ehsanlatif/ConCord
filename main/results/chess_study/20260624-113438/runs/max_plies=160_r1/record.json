@@ -1,0 +1,134 @@
+{
+  "label": "max_plies=160",
+  "repeat": 1,
+  "run_tag": "max_plies=160_r1",
+  "vary": "max_plies",
+  "value": 160,
+  "max_plies": 160,
+  "overrides": {
+    "pipeline.max_split_depth": 2,
+    "pipeline.K_executor": 2,
+    "pipeline.K_combiner": 1,
+    "mcts.N": 256,
+    "pipeline.max_node_calls": 5000
+  },
+  "key_params": {
+    "solver": "pipeline",
+    "mcts.N": 256,
+    "pipeline.K_executor": 2,
+    "pipeline.K_combiner": 1,
+    "pipeline.max_split_depth": 2,
+    "pipeline.max_atoms_per_split": 3,
+    "pipeline.max_node_calls": 5000,
+    "pipeline.verifier_accept": 0.75,
+    "pipeline.combiner_retries": 2,
+    "confidence.alpha": 0.25,
+    "llm.temperature": 1.0
+  },
+  "role_models": {
+    "execution": "anthropic/claude-sonnet-4-6",
+    "splitter": "anthropic/claude-sonnet-4-6",
+    "combiner": "anthropic/claude-sonnet-4-6",
+    "verification": "anthropic/claude-sonnet-4-6",
+    "synthesizer": "anthropic/claude-opus-4-8",
+    "synth_verifier": "anthropic/claude-opus-4-8",
+    "decomposition": "anthropic/claude-sonnet-4-6",
+    "classification": "anthropic/claude-haiku-4-5"
+  },
+  "cost": {
+    "calls": 36,
+    "input_tokens": 34827,
+    "output_tokens": 17107,
+    "total_tokens": 51934,
+    "usd": 0.361086
+  },
+  "per_role_cost": {
+    "execution": {
+      "calls": 14,
+      "input_tokens": 3960,
+      "output_tokens": 10302,
+      "usd": 0.16641
+    },
+    "decomposition": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "classification": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "verification": {
+      "calls": 15,
+      "input_tokens": 20548,
+      "output_tokens": 3439,
+      "usd": 0.113229
+    },
+    "splitter": {
+      "calls": 4,
+      "input_tokens": 4313,
+      "output_tokens": 2741,
+      "usd": 0.054054
+    },
+    "combiner": {
+      "calls": 3,
+      "input_tokens": 6006,
+      "output_tokens": 625,
+      "usd": 0.027393
+    },
+    "synthesizer": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    },
+    "synth_verifier": {
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "usd": 0.0
+    }
+  },
+  "elapsed_s": 309.25,
+  "rollouts": 256,
+  "flagged": null,
+  "answer": "8/8/8/2k5/7Q/6p1/4b3/6N1 w - - 2 126",
+  "overall_correct": false,
+  "overall_board_match": false,
+  "atom_pass_rate": 0.0,
+  "n_atoms": 9,
+  "n_gradeable": 2,
+  "n_pass": 0,
+  "n_fail": 2,
+  "n_ungradeable": 7,
+  "decomposition_fidelity": 1.0,
+  "levels": {
+    "1": {
+      "n": 3,
+      "gradeable": 1,
+      "pass": 0,
+      "fail": 1,
+      "ungradeable": 2,
+      "slice_faithful": 1,
+      "slice_checked": 1,
+      "pass_rate": 0.0,
+      "slice_fidelity": 1.0
+    },
+    "2": {
+      "n": 6,
+      "gradeable": 1,
+      "pass": 0,
+      "fail": 1,
+      "ungradeable": 5,
+      "slice_faithful": 1,
+      "slice_checked": 1,
+      "pass_rate": 0.0,
+      "slice_fidelity": 1.0
+    }
+  },
+  "trace_path": "results/chess_study/20260624-113438/runs/max_plies=160_r1/20260624-115545-fd81a4-max_plies=160_r1/20260624-115545-fd81a4-max_plies=160_r1.jsonl",
+  "run_dir": "results/chess_study/20260624-113438/runs/max_plies=160_r1"
+}

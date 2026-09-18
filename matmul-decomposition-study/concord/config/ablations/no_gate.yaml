@@ -1,0 +1,6 @@
+# Ablation arm: coherence gate off.
+# Plan §8.4. Isolates the gate's contribution to coherence rate / search efficiency.
+ablation:
+  gate: "off"
+coherence:
+  mode: "off"

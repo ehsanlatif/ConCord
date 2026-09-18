@@ -1,0 +1,64 @@
+# Per-role model configuration for Concord.
+#
+# Each role under `models:` can pin its own provider/model/temperature.
+# Roles you leave commented out fall back to the top-level `llm:` block.
+#
+# Usage:
+#   .venv/bin/python -m concord.experiments.run_all \
+#       --config concord/config/per_role.yaml --N 16 --K 4
+#
+# Reasonable defaults below: opus for execution (does the actual reasoning),
+# sonnet for decomposition (sub-problem proposal), haiku for classification
+# and verification (cheap, judge-style).
+
+seed: 42
+
+# Fallback used by any role that doesn't override below.
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-6
+  temperature: 1.0
+  max_output_tokens: 1024
+  request_timeout_s: 120.0
+
+models:
+  execution:
+    provider: anthropic
+    model: claude-opus-4-8
+    temperature: 1.0           # high temperature for diversity → better SD
+    max_output_tokens: 1024
+
+  decomposition:
+    provider: anthropic
+    model: claude-sonnet-4-6
+    temperature: 0.3           # moderate — we want stable subproblem framing
+    max_output_tokens: 1024
+
+  classification:
+    provider: anthropic
+    model: claude-haiku-4-5
+    temperature: 0.0           # deterministic category lookup
+    max_output_tokens: 256
+
+  verification:
+    provider: anthropic
+    model: claude-opus-4-8
+    temperature: 0.0           # deterministic judge
+    max_output_tokens: 256
+
+# All other knobs come from default.yaml; override below to taste.
+sampling:
+  K_blackbox: 8
+
+mcts:
+  c_puct: 3.0
+  C: 2.0
+  beta: 0.5
+  n_min: 3
+  N: 128
+
+confidence:
+  alpha: 0.25                  # SD vs verifier weight in U_s
+  tau_pre: 0.6
+  entail_threshold: 0.5
+                        
