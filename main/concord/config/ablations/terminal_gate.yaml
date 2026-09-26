@@ -1,6 +1,0 @@
-# Ablation arm: coherence gate only at terminal nodes.
-# Plan §8.4 — isolates the value of the INCREMENTAL gate vs. checking once at the end.
-ablation:
-  gate: terminal_only
-coherence:
-  mode: terminal_only
