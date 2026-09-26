@@ -10,9 +10,8 @@ lives together while remaining separable:
 
 | Folder | What it contains |
 |---|---|
-| [`matmul-decomposition-study/`](matmul-decomposition-study/) | **The current / paper branch.** The full ConCord package plus the matrix-chain long-horizon-execution study: method, benchmark dataset, reproduction scripts, figures, and the paper companion (`paper/`). Start here. |
+| [`matmul-decomposition-study/`](matmul-decomposition-study/) | The full ConCord package plus the matrix-chain long-horizon-execution study. |
 ## Where to start
-
 - **Method & contributions:** `matmul-decomposition-study/paper/02_method_and_contributions.md`
 - **Reproduction scripts:** `matmul-decomposition-study/scripts/`
 - **Benchmark dataset:** `matmul-decomposition-study/data/matmul/` (static, golden-labeled; sha256-verified in `config.json`)
@@ -32,4 +31,4 @@ See each folder's own `README.md` for details.
 
 ## License
 
-MIT — see [`LICENSE`](matmul-decomposition-study/LICENSE).
+MIT — see [`LICENSE`](CONCORD/LICENSE).
