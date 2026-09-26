@@ -1,4 +1,0 @@
-# Ablation arm: cosine-to-centroid confidence instead of Semantic Density.
-# Plan §8.4 — isolates whether SD itself improves U_s calibration.
-ablation:
-  confidence: cosine_centroid

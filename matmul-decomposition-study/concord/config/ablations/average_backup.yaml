@@ -1,4 +1,0 @@
-# Ablation arm: average backup instead of guarded-max.
-# Plan §8.4. Removes the n_min overestimation guard.
-ablation:
-  backup: average
