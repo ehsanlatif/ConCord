@@ -10,13 +10,10 @@ lives together while remaining separable:
 
 | Folder | What it contains |
 |---|---|
-| [`matmul-decomposition-study/`](matmul-decomposition-study/) | **The current / paper branch.** The full ConCord package plus the matrix-chain long-horizon-execution study: method, benchmark dataset, reproduction scripts, results, figures, and the paper companion (`paper/`). Start here. |
-| [`main/`](main/) | The base ConCord prototype (package, spec, implementation plan) prior to the matmul study. |
-
+| [`matmul-decomposition-study/`](matmul-decomposition-study/) | **The current / paper branch.** The full ConCord package plus the matrix-chain long-horizon-execution study: method, benchmark dataset, reproduction scripts, figures, and the paper companion (`paper/`). Start here. |
 ## Where to start
 
 - **Method & contributions:** `matmul-decomposition-study/paper/02_method_and_contributions.md`
-- **Results & figures:** `matmul-decomposition-study/paper/04_main_results.md`, `matmul-decomposition-study/paper/figures/`
 - **Reproduction scripts:** `matmul-decomposition-study/scripts/`
 - **Benchmark dataset:** `matmul-decomposition-study/data/matmul/` (static, golden-labeled; sha256-verified in `config.json`)
 - **Core package:** `matmul-decomposition-study/concord/`
